@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time Banking – Mockup</title>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #f0ece3;
+    background-image: 
+      repeating-linear-gradient(0deg, transparent, transparent 24px, rgba(0,0,0,0.04) 25px),
+      repeating-linear-gradient(90deg, transparent, transparent 24px, rgba(0,0,0,0.04) 25px);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px 24px;
+    font-family: 'Courier Prime', monospace;
+  }
+
+  h1 {
+    font-family: 'Special Elite', cursive;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #555;
+    margin-bottom: 40px;
+    border-bottom: 1px solid #aaa;
+    padding-bottom: 10px;
+    width: 100%;
+    max-width: 960px;
+    text-align: center;
+  }
+
+  .flow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+    max-width: 960px;
+  }
+
+  /* CARD – Credit card ratio 85.6 × 53.98 mm → 342 × 216px */
+  .card {
+    width: 342px;
+    height: 216px;
+    background: #fff;
+    border: 2px solid #1a1a1a;
+    border-radius: 10px;
+    box-shadow: 4px 4px 0 #1a1a1a;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  /* Stencil texture overlay */
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='1' height='1' fill='%23000' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* Screen label strip */
+  .card-label {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 20px;
+    background: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+  }
+  .card-label span {
+    font-family: 'Special Elite', cursive;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: #f0ece3;
+    text-transform: uppercase;
+  }
+
+  .card-body {
+    position: absolute;
+    top: 20px; left: 0; right: 0; bottom: 0;
+    padding: 10px 14px;
+  }
+
+  /* ─── SCREEN 1 ─── */
+  .s1 .balance-big {
+    font-family: 'Special Elite', cursive;
+    font-size: 38px;
+    line-height: 1;
+    color: #1a1a1a;
+    letter-spacing: -1px;
+  }
+  .s1 .balance-label {
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    color: #888;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .s1 .nearby-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    border: 1.5px dashed #1a1a1a;
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #1a1a1a;
+    margin-bottom: 14px;
+  }
+  .dot-green {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #3a3a3a;
+    border: 1.5px solid #1a1a1a;
+    position: relative;
+  }
+  .dot-green::after {
+    content:'';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1px dashed #1a1a1a;
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.3;transform:scale(1.3)} }
+
+  .s1 .btn-main {
+    width: 100%;
+    height: 30px;
+    border: 2px solid #1a1a1a;
+    background: #1a1a1a;
+    color: #f0ece3;
+    font-family: 'Courier Prime', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* corner deco */
+  .corner-tl, .corner-br {
+    position: absolute;
+    width: 18px; height: 18px;
+    border-color: #ccc;
+    border-style: solid;
+    opacity: 0.4;
+  }
+  .corner-tl { top: 24px; left: 6px; border-width: 1px 0 0 1px; }
+  .corner-br { bottom: 6px; right: 6px; border-width: 0 1px 1px 0; }
+
+  /* ─── SCREEN 2 ─── */
+  .s2 .section-title {
+    font-size: 7px;
+    letter-spacing: 0.25em;
+    color: #888;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .person-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1.5px solid #1a1a1a;
+    border-radius: 4px;
+    padding: 6px 8px;
+    margin-bottom: 6px;
+    position: relative;
+  }
+  .person-row .avatar {
+    width: 22px; height: 22px;
+    border: 1.5px solid #1a1a1a;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    flex-shrink: 0;
+  }
+  .person-row .info { flex: 1; }
+  .person-row .name { font-size: 9px; font-weight: 700; letter-spacing: 0.05em; }
+  .person-row .service { font-size: 7px; color: #666; letter-spacing: 0.05em; }
+  .person-row .cost {
+    font-size: 9px; font-weight: 700;
+    border: 1.5px dashed #1a1a1a;
+    border-radius: 10px;
+    padding: 1px 6px;
+    white-space: nowrap;
+  }
+  .person-row.selected { background: #1a1a1a; color: #f0ece3; }
+  .person-row.selected .service { color: #aaa; }
+  .person-row.selected .cost { border-color: #f0ece3; }
+
+  /* ─── SCREEN 3 ─── */
+  .s3 .confirm-block {
+    border: 1.5px dashed #1a1a1a;
+    border-radius: 4px;
+    padding: 8px 10px;
+    margin-bottom: 10px;
+  }
+  .s3 .row { display: flex; justify-content: space-between; margin-bottom: 4px; }
+  .s3 .row-label { font-size: 7px; color: #888; letter-spacing: 0.15em; text-transform: uppercase; }
+  .s3 .row-value { font-size: 9px; font-weight: 700; }
+  .s3 .balance-change {
+    font-size: 11px; font-weight: 700;
+    text-align: center;
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+  }
+  .s3 .balance-change .arr { font-size: 9px; opacity: 0.5; }
+  .btn-row { display: flex; gap: 6px; }
+  .btn-confirm {
+    flex: 1;
+    height: 26px;
+    border: 2px solid #1a1a1a;
+    background: #1a1a1a;
+    color: #f0ece3;
+    font-family: 'Courier Prime', monospace;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  .btn-cancel {
+    flex: 1;
+    height: 26px;
+    border: 2px solid #1a1a1a;
+    background: transparent;
+    color: #1a1a1a;
+    font-family: 'Courier Prime', monospace;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  /* ─── SCREEN 4 ─── */
+  .s4 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+  }
+  .s4 .check-circle {
+    width: 36px; height: 36px;
+    border: 2.5px solid #1a1a1a;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  .s4 .success-msg {
+    font-family: 'Special Elite', cursive;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .s4 .coins-anim {
+    font-size: 18px;
+    letter-spacing: 4px;
+    margin-bottom: 6px;
+    animation: coinMove 2s infinite;
+  }
+  @keyframes coinMove { 0%,100%{letter-spacing:4px;opacity:1} 50%{letter-spacing:12px;opacity:0.6} }
+  .s4 .new-balance {
+    font-family: 'Special Elite', cursive;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    margin-bottom: 2px;
+  }
+  .s4 .new-balance-label {
+    font-size: 7px; color: #888; letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .s4 .btn-home {
+    border: 2px solid #1a1a1a;
+    background: transparent;
+    font-family: 'Courier Prime', monospace;
+    font-size: 7px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    cursor: pointer;
+    border-radius: 3px;
+  }
+
+  /* ─── ARROWS ─── */
+  .arrow-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    margin: 0;
+  }
+  .arrow-line {
+    width: 2px;
+    height: 28px;
+    background: repeating-linear-gradient(to bottom, #1a1a1a 0, #1a1a1a 4px, transparent 4px, transparent 8px);
+  }
+  .arrow-label {
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #888;
+    background: #f0ece3;
+    padding: 0 8px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin: 4px 0;
+  }
+  .arrow-head {
+    width: 0; height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid #1a1a1a;
+    margin-top: -1px;
+  }
+
+  /* ─── RETURN ARROW ─── */
+  .return-wrap {
+    display: flex;
+    align-items: flex-start;
+    width: 342px;
+    margin-top: 8px;
+  }
+  .return-line {
+    width: 40px;
+    height: 2px;
+    background: repeating-linear-gradient(to right, #1a1a1a 0, #1a1a1a 4px, transparent 4px, transparent 8px);
+    margin-top: 10px;
+  }
+  .return-vert-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .return-vert {
+    width: 2px;
+    background: repeating-linear-gradient(to top, #1a1a1a 0, #1a1a1a 4px, transparent 4px, transparent 8px);
+  }
+
+  /* Legend */
+  .legend {
+    margin-top: 48px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #888;
+  }
+  .legend-dot {
+    width: 8px; height: 8px;
+    border: 1.5px solid #1a1a1a;
+    border-radius: 50%;
+  }
+  .legend-rect {
+    width: 12px; height: 8px;
+    border: 1.5px solid #1a1a1a;
+    border-radius: 1px;
+  }
+  .legend-dash {
+    width: 14px; height: 0;
+    border-top: 1.5px dashed #1a1a1a;
+  }
+</style>
+</head>
+<body>
+
+<h1>Time Banking Device — Screen Flow Mockup</h1>
+
+<div class="flow">
+
+  <!-- CARD 1 -->
+  <div class="card" id="card1">
+    <div class="card-label"><span>Pantalla 1 – Principal</span></div>
+    <div class="card-body">
+      <div class="corner-tl"></div>
+      <div class="corner-br"></div>
+      <div class="s1">
+        <div class="balance-big">16<span style="font-size:16px">h</span></div>
+        <div class="balance-label">balance disponible</div>
+        <div class="nearby-pill">
+          <div class="dot-green"></div>
+          3 personas cercanas
+        </div>
+        <button class="btn-main">▶ Buscar intercambio</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARROW 1→2 -->
+  <div class="arrow-section">
+    <div class="arrow-line"></div>
+    <div class="arrow-label">toca el botón</div>
+    <div class="arrow-line"></div>
+    <div class="arrow-head"></div>
+  </div>
+
+  <!-- CARD 2 -->
+  <div class="card" id="card2">
+    <div class="card-label"><span>Pantalla 2 – Búsqueda</span></div>
+    <div class="card-body">
+      <div class="corner-tl"></div>
+      <div class="corner-br"></div>
+      <div class="section-title">personas disponibles cerca</div>
+      <div class="person-row selected">
+        <div class="avatar">👤</div>
+        <div class="info">
+          <div class="name">Ana M.</div>
+          <div class="service">Clases de inglés</div>
+        </div>
+        <div class="cost">2h</div>
+      </div>
+      <div class="person-row">
+        <div class="avatar">👤</div>
+        <div class="info">
+          <div class="name">Luis R.</div>
+          <div class="service">Reparación de PC</div>
+        </div>
+        <div class="cost">3h</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARROW 2→3 -->
+  <div class="arrow-section">
+    <div class="arrow-line"></div>
+    <div class="arrow-label">selecciona persona</div>
+    <div class="arrow-line"></div>
+    <div class="arrow-head"></div>
+  </div>
+
+  <!-- CARD 3 -->
+  <div class="card" id="card3">
+    <div class="card-label"><span>Pantalla 3 – Confirmación</span></div>
+    <div class="card-body">
+      <div class="corner-tl"></div>
+      <div class="corner-br"></div>
+      <div class="s3">
+        <div class="confirm-block">
+          <div class="row">
+            <span class="row-label">Con</span>
+            <span class="row-value">Ana M.</span>
+          </div>
+          <div class="row">
+            <span class="row-label">Servicio</span>
+            <span class="row-value">Clases de inglés</span>
+          </div>
+          <div class="row">
+            <span class="row-label">Costo</span>
+            <span class="row-value">− 2 horas</span>
+          </div>
+        </div>
+        <div class="balance-change">
+          16h <span class="arr">────▶</span> 14h
+        </div>
+        <div class="btn-row">
+          <button class="btn-confirm">✓ Confirmar</button>
+          <button class="btn-cancel">✕ Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARROW 3→4 -->
+  <div class="arrow-section">
+    <div class="arrow-line"></div>
+    <div class="arrow-label">confirma</div>
+    <div class="arrow-line"></div>
+    <div class="arrow-head"></div>
+  </div>
+
+  <!-- CARD 4 -->
+  <div class="card" id="card4">
+    <div class="card-label"><span>Pantalla 4 – Éxito</span></div>
+    <div class="card-body" style="display:flex;align-items:center;justify-content:center">
+      <div class="s4">
+        <div class="check-circle">✓</div>
+        <div class="success-msg">¡Intercambio completado!</div>
+        <div class="coins-anim">🪙 🪙 🪙</div>
+        <div class="new-balance">14h</div>
+        <div class="new-balance-label">nuevo balance</div>
+        <button class="btn-home">↩ Volver al inicio</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-rect" style="background:#1a1a1a"></div> Botón primario</div>
+  <div class="legend-item"><div class="legend-rect"></div> Botón secundario</div>
+  <div class="legend-item"><div class="legend-dash"></div> Contenedor informativo</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#3a3a3a"></div> Estado activo / cercano</div>
+  <div class="legend-item"><div class="legend-rect" style="background:#1a1a1a;width:8px;height:8px;border-radius:50%"></div> Elemento seleccionado</div>
+</div>
+
+</body>
+</html>
